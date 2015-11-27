@@ -1,0 +1,17 @@
+{
+  "name": "onit-user-service",
+  "version": "1.0.0",
+  "description": "onit user service",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "mongodb": "^2.0.49"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Baker",
+  "license": "ISC"
+}
