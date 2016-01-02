@@ -16,28 +16,30 @@ app.post ('/create', function (req, res) {
     }
     else {
       var collection = db.collection('users');
-
       var username = req.body.username;
       var password = req.body.password;
-
-      var user = collection.findOne({username: { $in: [username] }});
-
-      if(user) {
-        res.send({status: "401", mesage: "duplicate username"});
-        return;
-      }
-      var userForInsert = {
-        username: username,
-        password: password
-      }
-
-      collection.insert(userForInsert, function(err, res) {
-        if(err) {
-          console.log('error');
-        } else {
-          console.log('inserted');
+      collection.findOne({username: { $in: [username] }},
+      function(err, item) {
+        if(item) {
+          res.send({status: "401", mesage: "duplicate username"});
+          return;
         }
-      })
+        else {
+          var userForInsert = {
+            username: username,
+            password: password
+          }
+          collection.insert(userForInsert, function(err, result) {
+            if(err) {
+              console.log('error');
+              res.send({status: "500", mesage: "error ocurred"});
+            } else {
+              console.log('user inserted');
+              res.send({status: "200", mesage: "user created"});
+            }
+          });
+        }
+      });
     }
   });
 });
