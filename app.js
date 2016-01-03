@@ -44,6 +44,31 @@ app.post ('/create', function (req, res) {
   });
 });
 
+app.post('/auth', function(req, res) {
+  MongoClient.connect(url, function (err, db) {
+    if (err) {
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    }
+    else {
+      var collection = db.collection('users');
+      var username = req.body.username;
+      var password = req.body.password;
+      collection.findOne({username: { $in: [username] }, password: { $in: [password] }},
+      function(err, item) {
+          if(err) {
+          res.send({status:"error",message:"db error",token:null})
+        }
+        if(item) {
+          res.send({status:"ok",token:username + "99"})
+        }
+        else {
+          res.send({status:"failed",token:null})
+        }
+      });
+    }
+  });
+});
+
 app.get('/', function (req, res) {
   res.send('onit user service');
 });
