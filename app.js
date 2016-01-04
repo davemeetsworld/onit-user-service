@@ -69,6 +69,10 @@ app.post('/auth', function(req, res) {
   });
 });
 
+app.verifyToken = function(username, token) {
+  return token === username + "99"
+}
+
 app.get('/', function (req, res) {
   res.send('onit user service');
 });
